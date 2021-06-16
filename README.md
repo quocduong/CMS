@@ -1,7 +1,18 @@
 # CMS
 
 #CMS.EntityFramework
-- Entities
+- Entities:
+  - Products
+  - Product Details
+  - Product Category (n cấp)
+  - Product Comments
+  - Product Rates
+  - News
+  - News Details
+  - News Category(n cấp)
+  - News Comments
+  - Pages
+  - Page Category
 - Migration
 - Context
 
