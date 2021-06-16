@@ -3,8 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CMS.EntityFramework
 {
-    public class CmsDbContext : DbContext
+    public partial class CmsDbContext : DbContext
     {
+
+        public CmsDbContext() : base()
+        {
+
+        }
         public CmsDbContext(DbContextOptions<CmsDbContext> options)
             : base(options)
         {
