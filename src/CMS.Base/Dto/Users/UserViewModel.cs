@@ -1,4 +1,4 @@
-﻿namespace CMS.Base.Users
+﻿namespace CMS.Base.Dto.Users
 {
     public class UserViewModel
     {

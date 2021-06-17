@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Users\" />
+    <ProjectReference Include="..\CMS.EntityFramework.Shared\CMS.EntityFramework.Shared.csproj" />
   </ItemGroup>
 
 </Project>

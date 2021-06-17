@@ -4,8 +4,9 @@ using System.Linq;
 using CMS.EntityFramework.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using CMS.Base.Users;
+using CMS.Base.Dto.Users;
 using System;
+using CMS.Base.Dto;
 
 namespace CMS.EntityFramework.Repositories.Users
 {
@@ -17,7 +18,7 @@ namespace CMS.EntityFramework.Repositories.Users
             _mapper = mapper;
         }
 
-        public async Task<List<UserViewModel>> ReadAsync()
+        public async Task<List<UserViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null)
         {
             await using var context = new DatabaseContext();
             var table = Fetch(context.Users);
