@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Business.Interfaces.Users
 {
-    public interface IUserService
+    public interface IUserService : IBaseService
     {
         Task<List<UserViewModel>> ReadAsync(FilterModel filter, PagerModel pagerModel = null, SortingOption sortingOption = null);
         Task<CreateUpdateUserModel> SaveAsync(CreateUpdateUserModel user);

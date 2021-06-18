@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Business.Services.Users
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository)

@@ -10,7 +10,7 @@ using CMS.Base.Dto;
 
 namespace CMS.EntityFramework.Repositories.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository, IUserRepository
     {
         private readonly IMapper _mapper;
         public UserRepository(IMapper mapper)

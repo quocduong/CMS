@@ -1,4 +1,5 @@
 ﻿using CMS.Shared.Enums.Users;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CMS.EntityFramework.Domain

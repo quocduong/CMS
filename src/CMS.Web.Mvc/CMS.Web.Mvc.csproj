@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CMS.Business\CMS.Business.csproj" />
     <ProjectReference Include="..\CMS.EntityFramework\CMS.EntityFramework.csproj" />
   </ItemGroup>
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.EntityFramework.Repositories.Users
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         Task<List<UserViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null);
         Task<List<CreateUpdateUserModel>> CreateAsync(List<CreateUpdateUserModel> users);
