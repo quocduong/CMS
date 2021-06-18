@@ -1,19 +1,29 @@
 using CMS.Business;
 using CMS.EntityFramework;
+using CMS.Shared.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace CMS.Web.Mvc
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            _env = env;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            this.Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +34,10 @@ namespace CMS.Web.Mvc
             services.AddDbContext<CmsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
+
+            var connectionSettings = new AppSettings();
+            Configuration.Bind("ConnectionStrings", connectionSettings);
+            services.AddSingleton(connectionSettings);
 
             ServiceRegistration.Register(services);
             RepositoryRegistration.Register(services);
