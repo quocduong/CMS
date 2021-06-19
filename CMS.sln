@@ -7,17 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8C910C6-F11
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Web.Mvc", "src\CMS.Web.Mvc\CMS.Web.Mvc.csproj", "{22469F89-BAA2-4B62-81C6-5F11BC441DAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.EntityFramework", "src\CMS.EntityFramework\CMS.EntityFramework.csproj", "{F9F621E8-484E-4BC6-B943-D4177E51139A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.EntityFramework", "src\CMS.EntityFramework\CMS.EntityFramework.csproj", "{F9F621E8-484E-4BC6-B943-D4177E51139A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Business", "src\CMS.Business\CMS.Business.csproj", "{B8392C1D-CFE6-4021-9702-5AA4340722C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Business", "src\CMS.Business\CMS.Business.csproj", "{B8392C1D-CFE6-4021-9702-5AA4340722C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Library", "src\CMS.Library\CMS.Library.csproj", "{393763DB-47EF-4245-A844-E15E060735A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Library", "src\CMS.Library\CMS.Library.csproj", "{393763DB-47EF-4245-A844-E15E060735A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Shared", "src\CMS.Shared\CMS.Shared.csproj", "{03003526-2754-4DD9-8AA6-EB6395648CEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Shared", "src\CMS.Shared\CMS.Shared.csproj", "{03003526-2754-4DD9-8AA6-EB6395648CEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.EntityFramework.Shared", "src\CMS.EntityFramework.Shared\CMS.EntityFramework.Shared.csproj", "{1268F04E-1511-4B2C-932D-D3B95A235B53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.EntityFramework.Shared", "src\CMS.EntityFramework.Shared\CMS.EntityFramework.Shared.csproj", "{1268F04E-1511-4B2C-932D-D3B95A235B53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Base", "src\CMS.Base\CMS.Base.csproj", "{CC9A2283-849B-432C-AF4A-F1DF022B1812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Base", "src\CMS.Base\CMS.Base.csproj", "{CC9A2283-849B-432C-AF4A-F1DF022B1812}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.WebApi.Mvc", "CMS.WebApi.Mvc\CMS.WebApi.Mvc.csproj", "{63D45E7E-4585-415B-9A5B-51664630CD18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{CC9A2283-849B-432C-AF4A-F1DF022B1812}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC9A2283-849B-432C-AF4A-F1DF022B1812}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC9A2283-849B-432C-AF4A-F1DF022B1812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D45E7E-4585-415B-9A5B-51664630CD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D45E7E-4585-415B-9A5B-51664630CD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D45E7E-4585-415B-9A5B-51664630CD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D45E7E-4585-415B-9A5B-51664630CD18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{03003526-2754-4DD9-8AA6-EB6395648CEE} = {B8C910C6-F111-41F5-960F-F28C7C434CD2}
 		{1268F04E-1511-4B2C-932D-D3B95A235B53} = {B8C910C6-F111-41F5-960F-F28C7C434CD2}
 		{CC9A2283-849B-432C-AF4A-F1DF022B1812} = {B8C910C6-F111-41F5-960F-F28C7C434CD2}
+		{63D45E7E-4585-415B-9A5B-51664630CD18} = {B8C910C6-F111-41F5-960F-F28C7C434CD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC868561-E9BF-4BE4-81DC-A3ABD2127223}
