@@ -18,5 +18,7 @@ namespace CMS.EntityFramework
 
         public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<NewsCategory> NewsCategories { get; set; }
     }
 }
