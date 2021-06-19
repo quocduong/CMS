@@ -1,0 +1,35 @@
+﻿@using CMS.Web.Mvc.Resource
+@using CMS.Web.Mvc.AspNetCore.Mvc.Views
+
+@inject ScriptPaths ScriptPaths
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://dashboard-template.multipurposethemes.com/images/favicon.ico">
+
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap 4.0-->
+    <link rel="stylesheet" href="@(ApplicationPath)/assets/vendor_components/bootstrap/dist/css/bootstrap.css">
+
+    <!-- theme style -->
+    <link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/style.css">
+
+    <!-- DashboardX Admin skins -->
+    <link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/skin_color.css">
+
+
+</head>
+<body class="hold-transition light-skin sidebar-mini theme-blueindigo onlyheader">
+    <div class="wrapper">
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Header.cshtml")
+        @RenderBody()
+    </div>
+</body>
+</html>
