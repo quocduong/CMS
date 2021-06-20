@@ -2,6 +2,7 @@
 using CMS.Base.Dto;
 using CMS.Base.Dto.Products;
 using CMS.EntityFramework.Domain;
+using CMS.EntityFramework.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,32 +34,31 @@ namespace CMS.EntityFramework.Repositories.Products
             return await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Base.Dto.Products.ProductModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null)
+        public async Task<List<ProductModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null)
         {
             await using var dbContext = new DatabaseContext();
             IQueryable<Product> table = dbContext.Products;
             if (!string.IsNullOrEmpty(filter.Keyword))
             {
-                string keyWord = filter.Keyword.ToUpper();
-                table = table.Where(x => x.Name.ToUpper().Contains(keyWord));
+                var likeKeyword = $"%{filter.Keyword}%";
+                table = table.Where(x => EF.Functions.Like(x.Name, likeKeyword));
             }
-            //if (!string.IsNullOrEmpty(sorting.SortBy))
-            //{
-            //    var props = table.GetType().GetProperties();
-            //    foreach (var prop in props)
-            //    {
-            //        if (prop.ToString() == sorting.SortBy.ToString())
-            //        {
-            //        }
-            //    }
-            //    if (prop != null)
-            //        table.OrderBy(x=>x.Id).
-            //    //if (sorting.SortingDirection == SortingDirection.Desc)
-            //    //{
-            //    //    table.OrderByDescending()
-            //    //}
-            //}
-            return _mapper.Map<List<Base.Dto.Products.ProductModel>>(table.ToListAsync());
+            if (!string.IsNullOrEmpty(sorting?.SortBy))
+            {
+                switch (sorting.SortBy)
+                {
+                    case nameof(ProductModel.Name):
+                        table = sorting.SortingDirection == SortingDirection.Asc
+                                ? table.OrderBy(x => x.Name) : table.OrderByDescending(x => x.Name);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            // paging
+            table = table.ApplyPaging(pager);
+
+            return _mapper.Map<List<ProductModel>>(await table.ToListAsync());
         }
 
         public async Task<List<CreateOrUpdateProduct>> UpdateAsync(List<CreateOrUpdateProduct> listProductUpdate)
