@@ -46,6 +46,8 @@ namespace CMS.Web.Mvc
             services.AddSingleton(typeof(ScriptPaths));
 
             services.AddSignalR();
+            services.AddMvc();
+            services.AddWebOptimizer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +64,8 @@ namespace CMS.Web.Mvc
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            app.UseWebOptimizer();
             app.UseStaticFiles();
 
             app.UseRouting();
