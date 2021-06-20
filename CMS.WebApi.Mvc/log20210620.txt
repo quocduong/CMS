@@ -1,7 +1,0 @@
-2021-06-20 12:57:14.631 +07:00 [INF] Application started. Press Ctrl+C to shut down.
-2021-06-20 12:57:14.767 +07:00 [INF] Request starting HTTP/2 GET https://localhost:44308/swagger/index.html - -
-2021-06-20 12:57:14.824 +07:00 [INF] Hosting environment: Development
-2021-06-20 12:57:14.827 +07:00 [INF] Content root path: C:\Users\nambo\CMS\CMS.WebApi.Mvc
-2021-06-20 12:57:15.003 +07:00 [INF] Request finished HTTP/2 GET https://localhost:44308/swagger/index.html - - - 200 - text/html;charset=utf-8 256.4597ms
-2021-06-20 12:57:15.244 +07:00 [INF] Request starting HTTP/2 GET https://localhost:44308/swagger/v1/swagger.json - -
-2021-06-20 12:57:15.381 +07:00 [INF] Request finished HTTP/2 GET https://localhost:44308/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 137.2835ms
