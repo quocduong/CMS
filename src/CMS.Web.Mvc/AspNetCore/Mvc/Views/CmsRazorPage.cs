@@ -9,7 +9,7 @@ namespace CMS.Web.Mvc.AspNetCore.Mvc.Views
         {
             get
             {
-                var appPath = Context.Request.PathBase.Value;
+                var appPath = Context.Request.Host.Value;
                 if (appPath == null)
                 {
                     return "/";

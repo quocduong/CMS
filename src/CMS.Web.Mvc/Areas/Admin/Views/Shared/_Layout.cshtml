@@ -16,20 +16,29 @@
     <title>@ViewBag.Title</title>
 
     <!-- Bootstrap 4.0-->
-    <link rel="stylesheet" href="@(ApplicationPath)/assets/vendor_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="@(ApplicationPath)admin/_Bundles/admin.bundle.min.css">
 
     <!-- theme style -->
-    <link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/style.css">
+    <!--<link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/style.css">-->
 
     <!-- DashboardX Admin skins -->
-    <link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/skin_color.css">
-
+    <!--<link rel="stylesheet" href="@(ApplicationPath)/Areas/Admin/css/skin_color.css">-->
 
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-blueindigo onlyheader">
     <div class="wrapper">
         @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Header.cshtml")
-        @RenderBody()
+        <div class="content-wrapper">
+            <div class="container-full clearfix position-relative">
+                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_LeftSidebar.cshtml")
+
+                <section class="content">
+                    @RenderBody()
+                </section>
+
+                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Footer.cshtml")
+            </div>
+        </div>
     </div>
 </body>
 </html>

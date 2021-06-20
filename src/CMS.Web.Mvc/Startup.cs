@@ -1,5 +1,6 @@
 using CMS.Business;
 using CMS.EntityFramework;
+using CMS.EntityFramework.Repositories;
 using CMS.Shared.Configurations;
 using CMS.Web.Mvc.Resource;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,7 @@ namespace CMS.Web.Mvc
             ServiceRegistration.Register(services);
             RepositoryRegistration.Register(services);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
+            services.AddSingleton(typeof(ScriptPaths));
 
             services.AddSignalR();
         }

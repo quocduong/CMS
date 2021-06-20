@@ -7,7 +7,7 @@ using System.IO;
 
 namespace CMS.Web.Mvc.Resource
 {
-    public class ScriptPaths : IRepository
+    public class ScriptPaths
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
