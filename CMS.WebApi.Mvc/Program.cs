@@ -13,12 +13,6 @@ namespace CMS.WebApi.Mvc
     {
         public static void Main(string[] args)
         {
-            /*Log.Logger = new LoggerConfiguration()
-               .Enrich.FromLogContext()
-               .WriteTo.Console(new RenderedCompactJsonFormatter())
-               .WriteTo.Debug(outputTemplate: DateTime.Now.ToString())
-               
-               .CreateLogger();*/
             var configuration = new ConfigurationBuilder()
                    .AddJsonFile("appsettings.json")
                    .Build();
