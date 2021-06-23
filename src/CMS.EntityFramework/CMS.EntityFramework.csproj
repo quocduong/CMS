@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CMS.Shared\CMS.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
