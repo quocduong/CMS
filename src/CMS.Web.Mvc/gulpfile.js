@@ -1,289 +1,76 @@
-﻿var gulp = require("gulp");
-var path = require('path');
-var merge = require("merge-stream");
-var globby = require('globby');
-var concat = require('gulp-concat');
-var less = require('gulp-less');
-var uglify = require('gulp-uglify-es').default;
-var cleanCss = require('gulp-clean-css');
-var postcss = require("gulp-postcss");
-var url = require("postcss-url");
+﻿"use strict";
 
-var bundleConfig = require(path.resolve(__dirname, 'bundles.json'));
-var production = false;
+var gulp = require("gulp"),
+    concat = require("gulp-concat"),
+    cssmin = require("gulp-cssmin"),
+    htmlmin = require("gulp-htmlmin"),
+    uglify = require("gulp-uglify"),
+    merge = require("merge-stream"),
+    del = require("del"),
+    bundleconfig = require("./bundleconfig.json");
 
-const { watch } = require('gulp');
+var regex = {
+    css: /\.css$/,
+    html: /\.(html|htm)$/,
+    js: /\.js$/
+};
 
-var styleEntries = {};
-var scriptEntries = {};
+gulp.task("min", ["min:js", "min:css", "min:html"]);
 
-var viewScripts = globby.sync([
-    './wwwroot/**/*.js',
-    '!./wwwroot/**/*.min.js'
-]);
+gulp.task("min:js", function () {
+    var tasks = getBundles(regex.js).map(function (bundle) {
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(concat(bundle.outputFileName))
+            .pipe(uglify())
+            .pipe(gulp.dest("."));
+    });
+    return merge(tasks);
+});
 
-var viewStyles = globby.sync([
-    './wwwroot/**/*.css',
-    './wwwroot/**/*.less',
-    '!./wwwroot/**/*.min.css'
-]);
+gulp.task("min:css", function () {
+    var tasks = getBundles(regex.css).map(function (bundle) {
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(concat(bundle.outputFileName))
+            .pipe(cssmin())
+            .pipe(gulp.dest("."));
+    });
+    return merge(tasks);
+});
 
-var metronicScripts = globby.sync([
-    './wwwroot/metronic/**/*.js',
-    '!./wwwroot/metronic/**/*.min.js',
-    '!./wwwroot/metronic/core/**/*.js'
-]);
+gulp.task("min:html", function () {
+    var tasks = getBundles(regex.html).map(function (bundle) {
+        return gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(concat(bundle.outputFileName))
+            .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true, minifyJS: true }))
+            .pipe(gulp.dest("."));
+    });
+    return merge(tasks);
+});
 
-var metronicStyles = globby.sync([
-    './wwwroot/metronic/**/*.css',
-    './wwwroot/metronic/**/*.less',
-    '!./wwwroot/metronic/**/*.min.css'
-]);
+gulp.task("clean", function () {
+    var files = bundleconfig.map(function (bundle) {
+        return bundle.outputFileName;
+    });
 
-function processInputDefinition(input) {
-    var result = [];
-    for (var i = 0; i < input.length; i++) {
-        var url = input[i];
-        if (url.startsWith('!')) {
-            result.push('!' + path.resolve(__dirname, url.substring(1)));
-        } else {
-            result.push(path.resolve(__dirname, url));
-        }
-    }
+    return del(files);
+});
 
-    return result;
+gulp.task("watch", function () {
+    getBundles(regex.js).forEach(function (bundle) {
+        gulp.watch(bundle.inputFiles, ["min:js"]);
+    });
+
+    getBundles(regex.css).forEach(function (bundle) {
+        gulp.watch(bundle.inputFiles, ["min:css"]);
+    });
+
+    getBundles(regex.html).forEach(function (bundle) {
+        gulp.watch(bundle.inputFiles, ["min:html"]);
+    });
+});
+
+function getBundles(regexPattern) {
+    return bundleconfig.filter(function (bundle) {
+        return regexPattern.test(bundle.outputFileName);
+    });
 }
-
-function fillScriptBundles() {
-    // User defined bundles
-    for (var k = 0; k < bundleConfig.scripts.length; k++) {
-        var scriptBundle = bundleConfig.scripts[k];
-        scriptEntries[scriptBundle.output] = globby.sync(processInputDefinition(scriptBundle.input), { noext: true });
-    }
-
-    // View scripts
-    for (var i = 0; i < viewScripts.length; i++) {
-        var viewScriptName = viewScripts[i].replace('./wwwroot/', '');
-        scriptEntries[viewScriptName.replace('.js', '.min.js')] = [path.resolve(__dirname, viewScripts[i])];
-    }
-
-    // Metronic scripts
-    for (var j = 0; j < metronicScripts.length; j++) {
-        var metronicScriptName = metronicScripts[j].replace('./wwwroot/', '');
-        scriptEntries[metronicScriptName.replace('.js', '.min.js')] = [path.resolve(__dirname, metronicScripts[j])];
-    }
-}
-
-function fillStyleBundles() {
-    // User defined styles
-    for (var k = 0; k < bundleConfig.styles.length; k++) {
-        var styleBundle = bundleConfig.styles[k];
-        styleEntries[styleBundle.output] = globby.sync(processInputDefinition(styleBundle.input), { noext: true });
-    }
-
-    // View styles
-    for (var j = 0; j < viewStyles.length; j++) {
-        var viewStyleName = viewStyles[j].replace('./wwwroot/', '');
-
-        if (viewStyleName.indexOf('.css') >= 0) {
-            styleEntries[viewStyleName.replace('.css', '.min.css')] = [path.resolve(__dirname, 'wwwroot/' + viewStyleName)];
-        }
-
-        if (viewStyleName.indexOf('.less') >= 0) {
-            styleEntries[viewStyleName.replace('.less', '.min.css')] = [path.resolve(__dirname, 'wwwroot/' + viewStyleName)];
-        }
-    }
-
-    // Metronic styles
-    for (var i = 0; i < metronicStyles.length; i++) {
-        var metronicStyleName = metronicStyles[i].replace('./wwwroot/', '');
-
-        if (metronicStyleName.indexOf('.css') >= 0) {
-            styleEntries[metronicStyleName.replace('.css', '.min.css')] =
-                [path.resolve(__dirname, 'wwwroot/' + metronicStyleName)];
-        }
-
-        if (metronicStyleName.indexOf('.less') >= 0) {
-            styleEntries[metronicStyleName.replace('.less', '.min.css')] = [path.resolve(__dirname, 'wwwroot/' + metronicStyleName)];
-        }
-    }
-}
-
-function getFileNameFromPath(fullPath) {
-    return path.basename(fullPath);
-}
-
-function getPathWithoutFileNameFromPath(fullPath) {
-    return path.dirname(fullPath);
-}
-
-function fillScriptMappings() {
-    for (var k = 0; k < bundleConfig.scriptMappings.length; k++) {
-        var scriptBundle = bundleConfig.scriptMappings[k];
-        var inputFilesToBeCopied = globby.sync(processInputDefinition(scriptBundle.input), { noext: true });
-        for (var j = 0; j < inputFilesToBeCopied.length; j++) {
-            var outputFileName = path.join(scriptBundle.outputFolder, getFileNameFromPath(inputFilesToBeCopied[j]));
-            scriptEntries[outputFileName] = [inputFilesToBeCopied[j]];
-        }
-    }
-}
-
-function createScriptBundles() {
-    var tasks = [];
-    for (var script in scriptEntries) {
-        tasks.push(
-            createScriptBundle(script)
-        );
-    }
-
-    return tasks;
-}
-
-function createScriptBundle(script) {
-    var bundleName = getFileNameFromPath(script);
-    var bundlePath = getPathWithoutFileNameFromPath(script);
-
-    var stream = gulp.src(scriptEntries[script]);
-
-    if (production) {
-        stream = stream
-            .pipe(uglify());
-    }
-
-    return stream.pipe(concat(bundleName))
-        .pipe(gulp.dest('wwwroot/' + bundlePath));
-}
-
-function createStyleBundles() {
-    var tasks = [];
-    for (var style in styleEntries) {
-        tasks.push(
-            createStyleBundle(style)
-        );
-    }
-
-    return tasks;
-}
-
-function createStyleBundle(style) {
-
-    var bundleName = getFileNameFromPath(style);
-    var bundlePath = getPathWithoutFileNameFromPath(style);
-
-    var options = {
-        url: function (asset) {
-            // Ignore absolute URLs
-            if (asset.url.substring(0, 1) === '/') {
-                return asset.url;
-            }
-
-            var outputFolder = '';
-
-            if (asset.url.match(/\.(png|svg|jpg|gif)$/)) {
-                outputFolder = 'dist/img';
-            } else if (asset.url.match(/\.(woff|woff2|eot|ttf|otf)[?]{0,1}.*$/)) {
-                outputFolder = 'dist/fonts';
-            } else {
-                // Ignore not recognized assets like data:image etc...
-                return asset.url;
-            }
-
-            var fileName = path.basename(asset.absolutePath);
-            var outputPath = path.join(__dirname, '/wwwroot/' + outputFolder + '/');
-
-            gulp.src(asset.absolutePath).pipe(gulp.dest(outputPath));
-
-            return '/' + outputFolder + '/' + fileName;
-        }
-    };
-
-    var stream = gulp.src(styleEntries[style])
-        .pipe(postcss([url(options)]))
-        .pipe(less({ math: 'parens-division' }));
-
-    if (production) {
-        stream = stream.pipe(cleanCss());
-    }
-
-    return stream
-        .pipe(concat(bundleName))
-        .pipe(gulp.dest('wwwroot/' + bundlePath));
-}
-
-function findMatchingElements(path, array) {
-    var result = [];
-    for (var item in array) {
-        if (array[item].indexOf(path) >= 0) {
-            result[item] = array[item];
-        }
-    }
-
-    return result;
-}
-
-function watchScriptEntries() {
-    for (var script in scriptEntries) {
-        var watcher = watch(scriptEntries[script]);
-
-        watcher.on('change', function (path, stats) {
-            console.log(`${path} updated`);
-
-            var changedBundles = findMatchingElements(path, scriptEntries);
-
-            for (var changedBundle in changedBundles) {
-                createScriptBundle(changedBundle);
-            }
-
-        });
-    }
-}
-
-function watchStyleEntries() {
-    for (var style in styleEntries) {
-        var watcher = watch(styleEntries[style]);
-
-        watcher.on('change', function (path, stats) {
-            console.log(`${path} updated`);
-
-            var changedBundles = findMatchingElements(path, styleEntries);
-
-            for (var changedBundle in changedBundles) {
-                createStyleBundle(changedBundle);
-            }
-
-        });
-    }
-}
-
-function build() {
-
-    production = true;
-
-    fillScriptBundles();
-    fillStyleBundles();
-    fillScriptMappings();
-
-    var scriptTasks = createScriptBundles();
-    var styleTasks = createStyleBundles();
-
-    return merge(scriptTasks.concat(styleTasks));
-}
-
-function buildDev() {
-    fillScriptBundles();
-    fillStyleBundles();
-    fillScriptMappings();
-
-    var scriptTasks = createScriptBundles();
-    var styleTasks = createStyleBundles();
-
-    watchScriptEntries();
-    watchStyleEntries();
-
-    console.log('Bundles are being created, please wait...');
-
-    return merge(scriptTasks.concat(styleTasks));
-}
-
-exports.build = build;
-exports.buildDev = buildDev;
