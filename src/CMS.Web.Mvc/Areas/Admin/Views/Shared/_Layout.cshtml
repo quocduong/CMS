@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/css/admin/admin.bundle.min.css">
     <link rel="stylesheet" href="/css/admin/skin_color.min.css">
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-blueindigo onlyheader">
+<body class="hold-transition light-skin sidebar-mini theme-cyangreen onlyheader fixed">
     <div class="wrapper">
         @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Header.cshtml")
         <div class="content-wrapper">
@@ -33,6 +33,9 @@
                 @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Footer.cshtml")
             </div>
         </div>
+
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_ControlSidebar.cshtml")
+        <div class="control-sidebar-bg"></div>
     </div>
 
     <script src="/js/admin/site.min.js"></script>

@@ -7,6 +7,7 @@
       "wwwroot/Areas/Admin/css/color_theme.css",
       "wwwroot/Areas/Admin/css/style_rtl.css",
       "wwwroot/Areas/Admin/css/icons/font-awesome/css/font-awesome.css",
+      "wwwroot/Areas/Admin/css/icons/Ionicons/css/ionicons.css",
       "wwwroot/Areas/Admin/css/icons/themify-icons/themify-icons.css",
       "wwwroot/Areas/Admin/css/icons/linea-icons/linea.css",
       "wwwroot/Areas/Admin/css/icons/glyphicons/glyphicon.css",
@@ -50,7 +51,8 @@
   {
     "outputFileName": "wwwroot/js/admin/template.min.js",
     "inputFiles": [
-      "wwwroot/areas/admin/js/template.js"
+      "wwwroot/areas/admin/js/template.js",
+      "wwwroot/areas/admin/js/layout-settings.js"
     ],
     "minify": {
       "enabled": true,
