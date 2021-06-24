@@ -5,7 +5,6 @@ namespace CMS.EntityFramework
 {
     public partial class CmsDbContext : DbContext
     {
-
         public CmsDbContext() : base()
         {
 
