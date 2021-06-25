@@ -23,5 +23,12 @@ namespace CMS.EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductProductCategory> ProductProductCategories { get; set; }
+        public DbSet<ProductTagMapping> ProductTagMappings { get; set; }
+        public DbSet<NewsTag> NewsTags { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<PageCategory> PageCategories { get; set; }
+        public DbSet<PageContent> PageContents { get; set; }
+        public DbSet<PageTag> PageTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }

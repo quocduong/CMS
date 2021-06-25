@@ -6,4 +6,11 @@
         Draft,
         InActive
     }
+
+    public enum NewsType
+    {
+        All = 0,
+        General = 1,
+        Hot = 2
+    }
 }

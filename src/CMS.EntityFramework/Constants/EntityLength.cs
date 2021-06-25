@@ -2,6 +2,7 @@
 {
     public static class EntityLength
     {
+        public const int DefaultLength = 512;
         public const int NameLength = 256;
         public const int NormalLength = 512;
         public const int ContentLength = 4000;

@@ -1,5 +1,6 @@
 ﻿using CMS.EntityFramework.Constants;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,6 +8,11 @@ namespace CMS.EntityFramework.Domain
 {
     public class ProductCategory : BaseEntity
     {
+        public ProductCategory()
+        {
+            ProductProductCategories = new HashSet<ProductProductCategory>();
+        }
+
         [MaxLength(EntityLength.NameLength)]
         public string Name { get; set; }
         [MaxLength(EntityLength.NameLength)]
@@ -20,8 +26,6 @@ namespace CMS.EntityFramework.Domain
         [ForeignKey("ParentId")]
         public virtual ProductCategory ParentCategory { get; set; }
 
-        public Guid ProductProductCategoryId { get; set; }
-        [ForeignKey("ProductProductCategoryId")]
-        public virtual ProductProductCategory ProductProductCategory { get; set; }
+        public virtual ICollection<ProductProductCategory> ProductProductCategories { get; set; }
     }
 }
