@@ -1,0 +1,44 @@
+﻿@using CMS.Web.Mvc.Resource
+@using CMS.Web.Mvc.AspNetCore.Mvc.Views
+
+@inject ScriptPaths ScriptPaths
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="/css/admin/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/admin/admin.bundle.min.css">
+    <link rel="stylesheet" href="/css/admin/skin_color.min.css">
+</head>
+<body class="hold-transition light-skin sidebar-mini theme-cyangreen onlyheader fixed">
+    <div class="wrapper">
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Header.cshtml")
+        <div class="content-wrapper">
+            <div class="container-full clearfix position-relative">
+                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_LeftSidebar.cshtml")
+
+                <section class="content">
+                    @RenderBody()
+                </section>
+
+                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_Footer.cshtml")
+            </div>
+        </div>
+
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_Partials/_ControlSidebar.cshtml")
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <script src="/js/admin/site.min.js"></script>
+    <script src="/js/admin/template.min.js"></script>
+</body>
+</html>

@@ -1,13 +1,14 @@
 using CMS.Business;
 using CMS.EntityFramework;
+using CMS.EntityFramework.Repositories;
 using CMS.Shared.Configurations;
+using CMS.Web.Mvc.Resource;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace CMS.Web.Mvc
 {
@@ -41,6 +42,12 @@ namespace CMS.Web.Mvc
 
             ServiceRegistration.Register(services);
             RepositoryRegistration.Register(services);
+            services.AddScoped<IWebResourceManager, WebResourceManager>();
+            services.AddSingleton(typeof(ScriptPaths));
+
+            services.AddSignalR();
+            services.AddMvc();
+            services.AddWebOptimizer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +64,8 @@ namespace CMS.Web.Mvc
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            app.UseWebOptimizer();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -65,6 +74,10 @@ namespace CMS.Web.Mvc
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
