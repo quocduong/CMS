@@ -8,7 +8,8 @@ namespace CMS.EntityFramework.Repositories.Pages
 {
     public interface IPageRepository : IRepository
     {
-        Task<List<PageViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null);
+        Task<List<PageViewModel>> ReadAsync(FilterModel filter = null, PagerModel pager = null, SortingOption sorting = null,
+            bool prefetchPageTag = false, bool prefetchPageCategory = false);
         Task<List<CreateUpdatePageModel>> CreateAsync(List<CreateUpdatePageModel> pages);
         Task<List<CreateUpdatePageModel>> UpdateAsync(List<CreateUpdatePageModel> pageModels);
         Task<int> DeleteAsync(List<Guid> ids);

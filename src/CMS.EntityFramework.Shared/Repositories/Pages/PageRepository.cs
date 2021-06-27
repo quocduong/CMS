@@ -2,6 +2,7 @@
 using CMS.Base.Dto;
 using CMS.Base.Dto.Pages;
 using CMS.EntityFramework.Domain;
+using CMS.EntityFramework.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,27 @@ namespace CMS.EntityFramework.Repositories.Pages
             _mapper = mapper;
         }
 
-        public async Task<List<PageViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null)
+        public async Task<List<PageViewModel>> ReadAsync(FilterModel filter = null, PagerModel pager = null, SortingOption sorting = null,
+            bool prefetchPageTag = false, bool prefetchPageCategory = false)
         {
             await using var context = new DatabaseContext();
-            var table = Fetch(context.Pages);
-            var result = table.ToListAsync();
-            return _mapper.Map<List<PageViewModel>>(result);
+            var table = Fetch(context.Pages, filter: filter);
+            
+            if(sorting != null)
+                table = Sort(table, sorting);
+
+            table = table.ApplyPaging(pager);
+
+            if(prefetchPageTag)
+            {
+                table = table.Include(x => x.PageTags);
+            }
+            if(prefetchPageCategory)
+            {
+                table = table.Include(x => x.PageCategories);
+            }
+
+            return _mapper.Map<List<PageViewModel>>(await table.ToListAsync());
         }
 
         public async Task<List<CreateUpdatePageModel>> CreateAsync(List<CreateUpdatePageModel> pages)
@@ -64,8 +80,39 @@ namespace CMS.EntityFramework.Repositories.Pages
 
         #region Private Methods
 
-        private IQueryable<Page> Fetch(IQueryable<Page> table)
+        private IQueryable<Page> Fetch(IQueryable<Page> table, FilterModel filter = null)
         {
+            if(filter != null)
+            {
+                if (!string.IsNullOrEmpty(filter.Keyword))
+                {
+                    var searchText = $"%{filter.Keyword}%";
+                    table = table.Where(x => EF.Functions.Like(x.Title, searchText) 
+                                          || EF.Functions.Like(x.Description, searchText)
+                                          || EF.Functions.Like(x.OgTitle, searchText)
+                                          || EF.Functions.Like(x.OgDescription, searchText)
+                                          || EF.Functions.Like(x.Content, searchText));
+                }
+            }
+
+            return table;
+        }
+
+        private IQueryable<Page> Sort(IQueryable<Page> table, SortingOption sorting)
+        {
+            if(!string.IsNullOrEmpty(sorting.SortBy))
+            {
+                switch (sorting.SortBy)
+                {
+                    case nameof(PageViewModel.Title):
+                        table = sorting.SortingDirection == SortingDirection.Asc
+                                ? table.OrderBy(x => x.Title) : table.OrderByDescending(x => x.Title);
+                        break;
+                }
+                table = sorting.SortingDirection == SortingDirection.Asc
+                                ? table.OrderBy(x => x.UpdatedDate).ThenBy(x => x.CreatedDate)
+                                : table.OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate);
+            }
             return table;
         }
 

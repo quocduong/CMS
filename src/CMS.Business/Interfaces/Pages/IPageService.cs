@@ -8,7 +8,7 @@ namespace CMS.Business.Interfaces.Pages
 {
     public interface IPageService : IBaseService
     {
-        Task<List<PageViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null);
+        Task<List<PageViewModel>> ReadAsync(FilterModel filter = null, PagerModel pager = null, SortingOption sorting = null);
         Task<List<CreateUpdatePageModel>> SaveAsync(List<CreateUpdatePageModel> pages);
         Task<int> DeleteAsync(List<Guid> ids);
     }

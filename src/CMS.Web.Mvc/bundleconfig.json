@@ -26,6 +26,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/css/admin/datatable/datatables.min.css",
+    "inputFiles": [
+      "wwwroot/assets/vendor_components/datatable/datatables.min.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/css/admin/skin_color.min.css",
     "inputFiles": [
       "wwwroot/Areas/Admin/css/skin_color.css"
@@ -64,6 +70,17 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/datatable/datatables.min.js",
+    "inputFiles": [
+      "wwwroot/assets/vendor_components/datatable/datatables.min.js"
     ],
     "minify": {
       "enabled": true,

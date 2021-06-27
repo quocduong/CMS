@@ -18,7 +18,9 @@ namespace CMS.EntityFramework.Helpers
             CreateMap<PageCategory, PageCategoryViewModel>();
             CreateMap<PageCategoryViewModel, PageCategory>();
 
-            CreateMap<Page, PageViewModel>();
+            CreateMap<Page, PageViewModel>()
+                .ForMember(m => m.PageCategories, opt => opt.MapFrom(m => m.PageCategories))
+                .ForMember(m => m.PageTags, opt => opt.MapFrom(m => m.PageTags));
             CreateMap<CreateUpdatePageModel, Page>();
 
             CreateMap<PageTag, PageTagViewModel>();

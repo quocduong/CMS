@@ -18,7 +18,7 @@ namespace CMS.Business.Services.Pages
             _pageRepository = pageRepository;
         }
 
-        public async Task<List<PageViewModel>> ReadAsync(FilterModel filter, PagerModel pager = null, SortingOption sorting = null)
+        public async Task<List<PageViewModel>> ReadAsync(FilterModel filter = null, PagerModel pager = null, SortingOption sorting = null)
         {
             return await _pageRepository.ReadAsync(filter);
         }
