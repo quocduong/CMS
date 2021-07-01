@@ -40,9 +40,8 @@ namespace CMS.WebApi.Mvc
                     restrictedToMinimumLevel: LogEventLevel.Warning
                 )
                 .ReadFrom.Configuration(configuration)
-                .Enrich.WithProperty("AppName", "CMS.Web.Mvc")
+                .Enrich.WithProperty("AppName", "CMS.WebApi.Mvc")
                 .WriteTo.Debug(LogEventLevel.Debug)
-                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             Log.Logger = logger;
