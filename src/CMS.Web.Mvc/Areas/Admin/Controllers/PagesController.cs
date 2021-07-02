@@ -1,29 +1,30 @@
 ﻿using CMS.Business.Interfaces.Pages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CMS.Web.Mvc.Areas.Admin.Controllers
 {
+    [Area("admin")]
     public class PagesController : BaseController
     {
         private readonly IPageService _pageService;
-        private readonly ILogger _logger;
+        private readonly ILogger<PagesController> _logger;
 
-        public PagesController(IPageService pageService, ILogger logger)
-            : base(logger)
+        public PagesController(ILogger<PagesController> logger, IPageService pageService)
         {
             _pageService = pageService;
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
 
         public ActionResult Index()
         {
+            Log.Information("");
+            _logger.LogInformation("");
             return View();
         }
 
