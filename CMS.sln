@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Shared", "src\CMS.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.EntityFramework.Shared", "src\CMS.EntityFramework.Shared\CMS.EntityFramework.Shared.csproj", "{1268F04E-1511-4B2C-932D-D3B95A235B53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.WebApi.Mvc", "CMS.WebApi.Mvc\CMS.WebApi.Mvc.csproj", "{63D45E7E-4585-415B-9A5B-51664630CD18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.WebApi.Mvc", "api\CMS.WebApi.Mvc\CMS.WebApi.Mvc.csproj", "{63D45E7E-4585-415B-9A5B-51664630CD18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Base", "src\CMS.Base\CMS.Base.csproj", "{E0B41321-EB45-46BF-BAE5-B949CA0CF7E7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{D7EBF83D-C41B-485A-AB3B-57538BB9F706}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{D7EBF83D-C41B-485A-AB3B-57538BB9F706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -35,13 +35,7 @@ namespace CMS.WebApi.Mvc
             services.AddSingleton<IAuthorService, InMemoryAuthorService>();
             services.AddSingleton<IBookService, InMemoryBookService>();
 
-            services.AddGraphQL(s => SchemaBuilder.New()
-                .AddServices(s)
-                .AddType<AuthorType>()
-                .AddType<BookType>()
-                .AddQueryType<Query>()
-                .AddMutationType<Mutation>()
-                .Create());
+            services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();//.AddSubscriptionType<Subscription>();
 
             services.AddErrorFilter<BookNotFoundExceptionFilter>();
         }
