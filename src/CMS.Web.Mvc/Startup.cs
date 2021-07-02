@@ -1,5 +1,6 @@
 using CMS.Business;
 using CMS.EntityFramework;
+using CMS.EntityFramework.Helpers;
 using CMS.EntityFramework.Repositories;
 using CMS.Shared.Configurations;
 using CMS.Web.Mvc.Resource;
@@ -40,8 +41,7 @@ namespace CMS.Web.Mvc
             Configuration.Bind("ConnectionStrings", connectionSettings);
             services.AddSingleton(connectionSettings);
 
-            ServiceRegistration.Register(services);
-            RepositoryRegistration.Register(services);
+            RegisterDI(services);
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton(typeof(ScriptPaths));
 
@@ -82,6 +82,13 @@ namespace CMS.Web.Mvc
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void RegisterDI(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingHelper));
+            ServiceRegistration.Register(services);
+            RepositoryRegistration.Register(services);
         }
     }
 }

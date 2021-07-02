@@ -1,5 +1,7 @@
-﻿using CMS.Business.Interfaces;
-using CMS.Business.Services;
+﻿using CMS.Business.Interfaces.Pages;
+using CMS.Business.Interfaces.Users;
+using CMS.Business.Services.Pages;
+using CMS.Business.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMS.Business
@@ -8,7 +10,13 @@ namespace CMS.Business
     {
         public static void Register(IServiceCollection services)
         {
-            services.AddSingleton<ISingletonService, SingletonService>();
+            RegisterSingletonServices(services);
+        }
+
+        private static void RegisterSingletonServices(IServiceCollection services)
+        {
+            services.AddSingleton<IPageService, PageService>();
+            services.AddSingleton<IUserService, UserService>();
         }
     }
 }

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/admin/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/admin/admin.bundle.min.css">
     <link rel="stylesheet" href="/css/admin/skin_color.min.css">
+    @RenderSection("styles", false)
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-cyangreen onlyheader fixed">
     <div class="wrapper">
@@ -40,5 +41,6 @@
 
     <script src="/js/admin/site.min.js"></script>
     <script src="/js/admin/template.min.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>
