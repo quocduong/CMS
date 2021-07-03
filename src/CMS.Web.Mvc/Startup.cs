@@ -2,8 +2,12 @@ using CMS.Business;
 using CMS.EntityFramework;
 using CMS.EntityFramework.Helpers;
 using CMS.EntityFramework.Repositories;
+using CMS.GraphQL.Mutations;
+using CMS.GraphQL.Queries;
 using CMS.Shared.Configurations;
 using CMS.Web.Mvc.Resource;
+using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +49,11 @@ namespace CMS.Web.Mvc
             services.AddScoped<IWebResourceManager, WebResourceManager>();
             services.AddSingleton(typeof(ScriptPaths));
 
+            if (bool.Parse(Configuration["GraphQL:IsEnabled"]))
+            {
+                services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
+            }
+
             services.AddSignalR();
             services.AddMvc();
             services.AddWebOptimizer();
@@ -53,9 +62,18 @@ namespace CMS.Web.Mvc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var enabledGraphQl =  bool.Parse(Configuration["GraphQL:IsEnabled"]);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                if (enabledGraphQl)
+                {
+                    app.UsePlayground(new PlaygroundOptions
+                    {
+                        QueryPath = "/api",
+                        Path = "/playground"
+                    });
+                }
             }
             else
             {
@@ -64,7 +82,10 @@ namespace CMS.Web.Mvc
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-
+            if (enabledGraphQl)
+            {
+                app.UseGraphQL("/api");
+            }
             app.UseWebOptimizer();
             app.UseStaticFiles();
 
