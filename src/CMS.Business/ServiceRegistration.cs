@@ -1,5 +1,7 @@
-﻿using CMS.Business.Interfaces.Pages;
+﻿using CMS.Business.Interfaces.Menus;
+using CMS.Business.Interfaces.Pages;
 using CMS.Business.Interfaces.Users;
+using CMS.Business.Services.Menus;
 using CMS.Business.Services.Pages;
 using CMS.Business.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ namespace CMS.Business
         {
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IMenuService, MenuService>();
         }
     }
 }

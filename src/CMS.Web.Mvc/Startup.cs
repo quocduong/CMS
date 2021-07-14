@@ -1,11 +1,11 @@
 using CMS.Business;
 using CMS.EntityFramework;
 using CMS.EntityFramework.Helpers;
-using CMS.EntityFramework.Repositories;
-using CMS.GraphQL.Mutations;
+using CMS.GraphQL.MenuType;
 using CMS.GraphQL.Queries;
 using CMS.Shared.Configurations;
 using CMS.Web.Mvc.Resource;
+using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Builder;
@@ -51,7 +51,10 @@ namespace CMS.Web.Mvc
 
             if (bool.Parse(Configuration["GraphQL:IsEnabled"]))
             {
-                services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
+                services.AddGraphQL(p => SchemaBuilder.New().AddServices(p)
+                                         .AddType<MenuObjectType>()
+                                         .AddQueryType<Query>()
+                                         .Create());
             }
 
             services.AddSignalR();
@@ -102,6 +105,7 @@ namespace CMS.Web.Mvc
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapGraphQL();
             });
         }
 
