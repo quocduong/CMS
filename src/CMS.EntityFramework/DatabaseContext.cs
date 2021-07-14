@@ -14,7 +14,7 @@ namespace CMS.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connection.ConnectionString);
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP-T8B39FD0\\PHANPHUONGNAM;initial catalog=CMS;uid=sa;pwd=Nambo123;");
         }
     }
 }
